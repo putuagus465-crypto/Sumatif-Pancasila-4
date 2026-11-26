@@ -7,8 +7,8 @@ import { Question } from '../types';
  *
  * Komposisi & Pembobotan Skor:
  * - Romawi I (Bagian A): 30 Soal Pilihan Ganda (PG) -> Bobot 1 poin per soal (Benar = 1, Salah = 0)
- * - Romawi II (Bagian B): 10 Soal Pilihan Ganda Kompleks (PGK) -> Bobot 2 poin per soal
- *   (Benar semua tanpa salah = 2, Benar sebagian minimal 1 tanpa salah = 1, Salah = 0)
+ * - Romawi II (Bagian B): 10 Soal Pilihan Ganda Kompleks (PGK) -> 2 jawaban benar & 2 jawaban salah
+ *   (Benar 2 = 2 poin, Benar 1 = 1 poin, Tidak ada benar = 0 poin)
  * Total: 40 Soal | Skor Maksimal: 50 Poin | Nilai Akhir = (Total Skor / 50) x 100
  */
 
@@ -618,8 +618,9 @@ export const INITIAL_QUESTIONS: Question[] = [
   },
 
   // =========================================================================
-  // ROMAWI II: B. PILIHAN GANDA KOMPLEKS (10 SOAL, BOBOT 2 POIN PER SOAL)
-  // Benar semua = 2 poin | Benar sebagian (minimal 1, tanpa salah) = 1 poin | Salah = 0 poin
+  // ROMAWI II: B. PILIHAN GANDA KOMPLEKS (10 SOAL, BOBOT MAKS. 2 POIN PER SOAL)
+  // Setiap soal memiliki 2 jawaban benar dan 2 jawaban salah:
+  // Benar 2 = 2 poin | Benar 1 = 1 poin | Tidak ada benar (0) = 0 poin
   // =========================================================================
   {
     id: 31,
@@ -632,14 +633,14 @@ export const INITIAL_QUESTIONS: Question[] = [
     difficulty: 'Mudah',
     text: 'Sikap yang perlu ditunjukkan saat bermusyawarah adalah ....',
     options: [
-      { id: 'A', text: 'sopan' },
-      { id: 'B', text: 'sabar menunggu giliran' },
-      { id: 'C', text: 'mendengarkan' },
-      { id: 'D', text: 'mengejek pendapat' },
+      { id: 'A', text: 'sopan dan sabar menunggu giliran' },
+      { id: 'B', text: 'memaksakan kehendak pribadi' },
+      { id: 'C', text: 'mendengarkan pendapat orang lain' },
+      { id: 'D', text: 'mengejek pendapat teman' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['A', 'C'],
     explanation:
-      'Saat bermusyawarah kita harus bersikap sopan, sabar menunggu giliran berbicara, dan mendengarkan pendapat orang lain. Mengejek pendapat adalah sikap yang dilarang.',
+      'Saat bermusyawarah kita harus bersikap sopan, sabar menunggu giliran, dan mendengarkan pendapat orang lain. Memaksakan kehendak pribadi serta mengejek pendapat teman adalah sikap yang harus dihindari.',
   },
   {
     id: 32,
@@ -652,14 +653,14 @@ export const INITIAL_QUESTIONS: Question[] = [
     difficulty: 'Sedang',
     text: 'Langkah persiapan musyawarah yang tepat adalah ....',
     options: [
-      { id: 'A', text: 'menentukan masalah' },
+      { id: 'A', text: 'menentukan masalah yang akan dibahas' },
       { id: 'B', text: 'menyiapkan informasi yang diperlukan' },
-      { id: 'C', text: 'menentukan tujuan pembahasan' },
+      { id: 'C', text: 'menolak usulan sebelum diskusi dimulai' },
       { id: 'D', text: 'menentukan pemenang sebelum diskusi' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['A', 'B'],
     explanation:
-      'Persiapan musyawarah meliputi menentukan masalah yang dibahas, menyiapkan informasi pendukung, dan menetapkan tujuan pembahasan. Musyawarah bukan perlombaan untuk menentukan pemenang.',
+      'Persiapan musyawarah meliputi menentukan masalah yang akan dibahas dan menyiapkan informasi yang diperlukan. Menolak usulan lebih dulu maupun menentukan pemenang tidak sesuai dengan hakikat musyawarah.',
   },
   {
     id: 33,
@@ -672,14 +673,14 @@ export const INITIAL_QUESTIONS: Question[] = [
     difficulty: 'Sedang',
     text: 'Cara mengutarakan pendapat yang baik adalah ....',
     options: [
-      { id: 'A', text: 'menggunakan bahasa santun' },
-      { id: 'B', text: 'menyampaikan alasan' },
-      { id: 'C', text: 'berbicara jelas dan tidak berlebihan' },
-      { id: 'D', text: 'menyela setiap orang' },
+      { id: 'A', text: 'berteriak agar didengar semua peserta' },
+      { id: 'B', text: 'menggunakan bahasa yang santun' },
+      { id: 'C', text: 'menyampaikan alasan dengan jelas' },
+      { id: 'D', text: 'menyela pembicaraan setiap orang' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['B', 'C'],
     explanation:
-      'Pendapat yang baik disampaikan dengan bahasa santun, disertai alasan yang jelas, dan berbicara secukupnya tanpa menyela pembicaraan orang lain.',
+      'Cara mengutarakan pendapat yang baik adalah menggunakan bahasa yang santun dan menyampaikan alasan dengan jelas. Berteriak dan menyela pembicaraan melanggar etika bermusyawarah.',
   },
   {
     id: 34,
@@ -693,13 +694,13 @@ export const INITIAL_QUESTIONS: Question[] = [
     text: 'Prinsip musyawarah yang sesuai Pancasila adalah ....',
     options: [
       { id: 'A', text: 'mengutamakan kepentingan bersama' },
-      { id: 'B', text: 'menghargai kesetaraan peserta' },
-      { id: 'C', text: 'mencari mufakat' },
-      { id: 'D', text: 'mementingkan keuntungan pribadi' },
+      { id: 'B', text: 'mengabaikan suara peserta yang berbeda' },
+      { id: 'C', text: 'mementingkan keuntungan pribadi' },
+      { id: 'D', text: 'menghargai kesetaraan semua peserta' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['A', 'D'],
     explanation:
-      'Musyawarah sesuai nilai Pancasila mengutamakan kepentingan bersama, menghargai kesetaraan semua peserta, dan berupaya mencapai mufakat, bukan mengejar keuntungan pribadi.',
+      'Musyawarah sesuai nilai Pancasila mengutamakan kepentingan bersama dan menghargai kesetaraan semua peserta, bukan mengabaikan suara yang berbeda ataupun mementingkan keuntungan pribadi.',
   },
   {
     id: 35,
@@ -713,13 +714,13 @@ export const INITIAL_QUESTIONS: Question[] = [
     text: 'Jika pendapat berbeda, peserta dapat ....',
     options: [
       { id: 'A', text: 'menjelaskan alasan dengan tenang' },
-      { id: 'B', text: 'meminta penjelasan' },
+      { id: 'B', text: 'meninggalkan ruangan sambil marah' },
       { id: 'C', text: 'mempertimbangkan usulan lain' },
       { id: 'D', text: 'menghina pihak yang berbeda' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['A', 'C'],
     explanation:
-      'Ketika terjadi perbedaan pendapat, peserta hendaknya menjelaskan alasan dengan tenang, meminta klarifikasi/penjelasan, dan mempertimbangkan usulan lain tanpa menghina siapa pun.',
+      'Ketika terjadi perbedaan pendapat, peserta hendaknya menjelaskan alasan dengan tenang dan mempertimbangkan usulan lain, bukan meninggalkan ruangan sambil marah atau menghina pihak yang berbeda.',
   },
   {
     id: 36,
@@ -733,13 +734,13 @@ export const INITIAL_QUESTIONS: Question[] = [
     text: 'Hal yang dapat dilakukan agar mufakat tercapai adalah ....',
     options: [
       { id: 'A', text: 'menimbang kelebihan dan kekurangan usulan' },
-      { id: 'B', text: 'mencari titik temu' },
-      { id: 'C', text: 'mengubah usulan agar lebih bermanfaat bersama' },
-      { id: 'D', text: 'memaksa semua orang' },
+      { id: 'B', text: 'mencari titik temu dari berbagai pendapat' },
+      { id: 'C', text: 'memaksa semua orang mengikuti satu usulan' },
+      { id: 'D', text: 'menutup kesempatan berdiskusi sejak awal' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['A', 'B'],
     explanation:
-      'Mufakat tercapai melalui pertimbangan kelebihan dan kekurangan tiap usulan, mencari titik temu, serta menyempurnakan usulan demi manfaat bersama—bukan dengan paksaan.',
+      'Mufakat dapat tercapai melalui pertimbangan kelebihan dan kekurangan tiap usulan serta mencari titik temu dari berbagai pendapat—bukan dengan paksaan atau menutup kesempatan berdiskusi.',
   },
   {
     id: 37,
@@ -752,14 +753,14 @@ export const INITIAL_QUESTIONS: Question[] = [
     difficulty: 'Sedang',
     text: 'Setelah keputusan disepakati, peserta hendaknya ....',
     options: [
-      { id: 'A', text: 'melaksanakan keputusan' },
-      { id: 'B', text: 'bertanggung jawab atas tugas' },
-      { id: 'C', text: 'mendukung pelaksanaan' },
-      { id: 'D', text: 'menghalangi karena usulnya kalah' },
+      { id: 'A', text: 'menghalangi pelaksanaan karena usulnya kalah' },
+      { id: 'B', text: 'melaksanakan keputusan dengan ikhlas' },
+      { id: 'C', text: 'mengabaikan hasil musyawarah yang telah diputuskan' },
+      { id: 'D', text: 'bertanggung jawab atas tugas masing-masing' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['B', 'D'],
     explanation:
-      'Setiap peserta wajib melaksanakan keputusan bersama, bertanggung jawab menjalankan tugasnya, dan mendukung pelaksanaan meski usulannya tidak terpilih.',
+      'Setelah keputusan disepakati, setiap peserta wajib melaksanakan keputusan dengan ikhlas dan bertanggung jawab atas tugas masing-masing, tidak boleh mengabaikan atau menghalangi pelaksanaannya.',
   },
   {
     id: 38,
@@ -772,14 +773,14 @@ export const INITIAL_QUESTIONS: Question[] = [
     difficulty: 'Mudah',
     text: 'Contoh etika bermusyawarah adalah ....',
     options: [
-      { id: 'A', text: 'mematikan suara perangkat jika mengganggu' },
-      { id: 'B', text: 'hadir tepat waktu' },
+      { id: 'A', text: 'berbicara bersamaan saat teman berpendapat' },
+      { id: 'B', text: 'hadir tepat waktu saat musyawarah' },
       { id: 'C', text: 'menghormati pemimpin diskusi' },
-      { id: 'D', text: 'berbicara bersamaan' },
+      { id: 'D', text: 'membuat kegaduhan selama rapat berlangsung' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['B', 'C'],
     explanation:
-      'Etika bermusyawarah meliputi hadir tepat waktu, menghormati pemimpin diskusi, dan menjaga ketertiban seperti mematikan suara perangkat yang mengganggu. Berbicara bersamaan membuat diskusi tidak tertib.',
+      'Contoh etika bermusyawarah antara lain hadir tepat waktu dan menghormati pemimpin diskusi. Berbicara bersamaan dan membuat kegaduhan mengganggu ketertiban musyawarah.',
   },
   {
     id: 39,
@@ -793,13 +794,13 @@ export const INITIAL_QUESTIONS: Question[] = [
     text: 'Contoh keputusan bersama yang perlu dilaksanakan adalah ....',
     options: [
       { id: 'A', text: 'jadwal piket kelas' },
-      { id: 'B', text: 'aturan penggunaan perpustakaan' },
-      { id: 'C', text: 'rencana kerja bakti' },
+      { id: 'B', text: 'pilihan warna tas pribadi' },
+      { id: 'C', text: 'rencana kerja bakti sekolah' },
       { id: 'D', text: 'pilihan pribadi yang tidak dibahas' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['A', 'C'],
     explanation:
-      'Jadwal piket kelas, aturan penggunaan perpustakaan, dan rencana kerja bakti adalah keputusan bersama yang menyangkut kepentingan umum, sedangkan pilihan pribadi yang tidak dibahas bukan keputusan bersama.',
+      'Jadwal piket kelas dan rencana kerja bakti sekolah merupakan keputusan bersama yang menyangkut kepentingan umum, sedangkan pilihan warna tas pribadi dan pilihan pribadi yang tidak dibahas bukan keputusan bersama.',
   },
   {
     id: 40,
@@ -812,13 +813,13 @@ export const INITIAL_QUESTIONS: Question[] = [
     difficulty: 'Sukar',
     text: 'Sebelum menyetujui usulan, peserta sebaiknya ....',
     options: [
-      { id: 'A', text: 'memahami isi usulan' },
-      { id: 'B', text: 'memikirkan manfaat dan dampak' },
-      { id: 'C', text: 'bertanya jika belum jelas' },
-      { id: 'D', text: 'langsung setuju karena teman mengajak' },
+      { id: 'A', text: 'langsung setuju karena teman mengajak' },
+      { id: 'B', text: 'memahami isi usulan dengan baik' },
+      { id: 'C', text: 'tidak mendengarkan penjelasan pengusul' },
+      { id: 'D', text: 'memikirkan manfaat dan dampaknya' },
     ],
-    correctAnswer: ['A', 'B', 'C'],
+    correctAnswer: ['B', 'D'],
     explanation:
-      'Peserta yang bijaksana akan memahami isi usulan, mempertimbangkan manfaat serta dampaknya, dan bertanya jika ada hal yang belum jelas—tidak sekadar ikut-ikutan teman.',
+      'Sebelum menyetujui suatu usulan, peserta sebaiknya memahami isi usulan dengan baik serta memikirkan manfaat dan dampaknya—tidak sekadar ikut-ikutan teman atau mengabaikan penjelasan pengusul.',
   },
 ];

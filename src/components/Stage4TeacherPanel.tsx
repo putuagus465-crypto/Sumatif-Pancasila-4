@@ -1186,7 +1186,7 @@ export const Stage4TeacherPanel: React.FC<Stage4TeacherPanelProps> = ({
                 Struktur &amp; Bank Soal Pendidikan Pancasila — {CONFIG.MATERI} ({questions.length} Butir)
               </h3>
               <p className="text-xs text-slate-500">
-                Romawi I: 30 Pilihan Ganda (1 poin) • Romawi II: 10 Pilihan Ganda Kompleks (2 poin, benar sebagian 1 poin, salah 0 poin) • Skor Maks: 50
+                Romawi I: 30 Pilihan Ganda (1 poin) • Romawi II: 10 PG Kompleks (2 benar &amp; 2 salah: benar 2 = 2 poin, benar 1 = 1 poin, benar 0 = 0 poin) • Skor Maks: 50
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">

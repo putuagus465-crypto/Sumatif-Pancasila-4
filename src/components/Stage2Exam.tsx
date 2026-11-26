@@ -177,8 +177,13 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
     }));
   };
 
-  // Handler jawaban Pilihan Ganda Kompleks (PGK)
+  // Handler jawaban Pilihan Ganda Kompleks (PGK) — batas maksimal sesuai jumlah kunci jawaban (2 pilihan)
   const handleTogglePGK = (optionText: string) => {
+    const maxSelections =
+      Array.isArray(currentQ.correctAnswer) && currentQ.correctAnswer.length > 0
+        ? currentQ.correctAnswer.length
+        : 2;
+
     setAnswers((prev) => {
       const currentList = Array.isArray(prev[currentIndex]) ? (prev[currentIndex] as string[]) : [];
       if (currentList.includes(optionText)) {
@@ -187,6 +192,9 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
           [currentIndex]: currentList.filter((item) => item !== optionText),
         };
       } else {
+        if (currentList.length >= maxSelections) {
+          return prev;
+        }
         return {
           ...prev,
           [currentIndex]: [...currentList, optionText],
@@ -222,7 +230,7 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
   // Hitung Nilai & Validasi
   // Aturan Pembobotan:
   // - Romawi I (PG): Benar = 1 poin, Salah = 0 poin
-  // - Romawi II (PGK): Benar semua (tanpa opsi salah) = 2 poin, Benar sebagian (minimal 1 benar tanpa opsi salah) = 1 poin, Salah = 0 poin
+  // - Romawi II (PGK, 2 jawaban benar & 2 salah): Benar 2 = 2 poin, Benar 1 = 1 poin, Benar 0 = 0 poin
   const calculateResult = (): ExamResult => {
     let totalScore = 0;
     let maxTotalScore = 0;
@@ -256,7 +264,7 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
           userAnswerText: typeof userAns === 'string' ? userAns : '-',
         };
       } else if (sq.type === 'pgk') {
-        // Romawi II: Bobot maksimal 2 poin (benar semua tanpa salah = 2, benar sebagian tanpa salah = 1, salah = 0)
+        // Romawi II: 2 jawaban benar & 2 salah -> Benar 2 = 2 poin, Benar 1 = 1 poin, Tidak ada benar = 0 poin
         const itemMax = origQ.bobot ?? 2;
         maxTotalScore += itemMax;
         const correctKeys = Array.isArray(origQ.correctAnswer) ? origQ.correctAnswer : [];
@@ -265,14 +273,13 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
           .map((o) => o.text);
 
         const userSelected = Array.isArray(userAns) ? userAns : [];
+        const maxSelectable = correctKeys.length > 0 ? correctKeys.length : 2;
         const matchCount = userSelected.filter((u) => correctTexts.includes(u)).length;
-        const wrongSelected = userSelected.filter((u) => !correctTexts.includes(u)).length;
-        const isExactMatch =
-          wrongSelected === 0 &&
-          correctTexts.length > 0 &&
-          matchCount === correctTexts.length;
+        // Pengaman jika jumlah pilihan melebihi batas maksimal (2 opsi)
+        const excess = Math.max(0, userSelected.length - maxSelectable);
+        const earnedScore = Math.min(itemMax, Math.max(0, matchCount - excess));
 
-        if (isExactMatch) {
+        if (earnedScore >= itemMax && correctTexts.length > 0) {
           totalScore += itemMax;
           benarCount += 1;
           itemResponses[origQ.id] = {
@@ -283,21 +290,18 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
             status: 'benar',
             userAnswerText: userSelected.join(', '),
           };
-        } else if (wrongSelected === 0 && matchCount >= 1) {
-          // Benar sebagian (minimal 1 jawaban benar tanpa memilih pengecoh salah) -> 1 poin
-          const partialScore = 1;
-          totalScore += partialScore;
+        } else if (earnedScore >= 1) {
+          totalScore += earnedScore;
           sebagianCount += 1;
           itemResponses[origQ.id] = {
             questionId: origQ.id,
             isCorrect: false,
-            score: partialScore,
+            score: earnedScore,
             maxScore: itemMax,
             status: 'sebagian',
             userAnswerText: userSelected.join(', '),
           };
         } else {
-          // Memilih jawaban salah atau kosong -> 0 poin
           itemResponses[origQ.id] = {
             questionId: origQ.id,
             isCorrect: false,
@@ -737,7 +741,7 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
               {/* Petunjuk Pengisian Berdasarkan Tipe */}
               <div className="mb-4 text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 text-blue-800 border border-blue-100 inline-block">
                 {currentQ.type === 'pg' && 'Pilihlah satu jawaban yang paling tepat (Benar = 1 poin, Salah = 0 poin).'}
-                {currentQ.type === 'pgk' && 'Pilih semua jawaban yang benar — jawaban benar dapat lebih dari satu (Benar semua = 2 poin, Benar sebagian = 1 poin, Salah = 0 poin).'}
+                {currentQ.type === 'pgk' && 'Pilihlah 2 jawaban yang benar (Benar 2 = 2 poin, Benar 1 = 1 poin, Tidak ada benar = 0 poin).'}
                 {currentQ.type === 'pgk_kategori' && 'Tentukan pilihan Benar atau Salah untuk setiap pernyataan di bawah ini.'}
               </div>
 
@@ -781,42 +785,64 @@ export const Stage2Exam: React.FC<Stage2ExamProps> = ({
               )}
 
               {/* Tampilan Opsi Jawaban: Pilihan Ganda Kompleks (PGK) */}
-              {currentQ.type === 'pgk' && (
-                <div className="space-y-2.5">
-                  {currentOptions.map((opt) => {
-                    const currentList = Array.isArray(answers[currentIndex])
-                      ? (answers[currentIndex] as string[])
-                      : [];
-                    const isChecked = currentList.includes(opt.text);
+              {currentQ.type === 'pgk' && (() => {
+                const maxSelections =
+                  Array.isArray(currentQ.correctAnswer) && currentQ.correctAnswer.length > 0
+                    ? currentQ.correctAnswer.length
+                    : 2;
+                const currentList = Array.isArray(answers[currentIndex])
+                  ? (answers[currentIndex] as string[])
+                  : [];
+                const reachedLimit = currentList.length >= maxSelections;
 
-                    return (
-                      <button
-                        key={opt.id}
-                        type="button"
-                        onClick={() => handleTogglePGK(opt.text)}
-                        className={`w-full text-left p-3.5 sm:p-4 rounded-xl border transition-all flex items-start gap-3.5 cursor-pointer ${
-                          isChecked
-                            ? 'border-emerald-600 bg-emerald-50/70 text-emerald-950 font-semibold ring-1 ring-emerald-500'
-                            : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-800'
-                        }`}
-                      >
-                        <div
-                          className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-colors ${
+                return (
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between text-xs pb-1">
+                      <span className="font-semibold text-emerald-700">
+                        Terpilih: {currentList.length} / {maxSelections} jawaban
+                      </span>
+                      {reachedLimit && (
+                        <span className="text-[11px] text-slate-500">
+                          Klik pilihan terpilih untuk mengganti jawaban
+                        </span>
+                      )}
+                    </div>
+                    {currentOptions.map((opt) => {
+                      const isChecked = currentList.includes(opt.text);
+                      const isDisabledOption = !isChecked && reachedLimit;
+
+                      return (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => handleTogglePGK(opt.text)}
+                          disabled={isDisabledOption}
+                          className={`w-full text-left p-3.5 sm:p-4 rounded-xl border transition-all flex items-start gap-3.5 ${
                             isChecked
-                              ? 'bg-emerald-600 text-white shadow-xs'
-                              : 'bg-slate-100 text-slate-600'
+                              ? 'border-emerald-600 bg-emerald-50/70 text-emerald-950 font-semibold ring-1 ring-emerald-500 cursor-pointer'
+                              : isDisabledOption
+                              ? 'border-slate-200 bg-slate-50/70 text-slate-400 opacity-60 cursor-not-allowed'
+                              : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-800 cursor-pointer'
                           }`}
                         >
-                          {isChecked ? <Check className="w-4 h-4" /> : opt.id}
-                        </div>
-                        <span className="text-xs sm:text-sm mt-0.5 leading-normal flex-1">
-                          {opt.text}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
+                          <div
+                            className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-colors ${
+                              isChecked
+                                ? 'bg-emerald-600 text-white shadow-xs'
+                                : 'bg-slate-100 text-slate-600'
+                            }`}
+                          >
+                            {isChecked ? <Check className="w-4 h-4" /> : opt.id}
+                          </div>
+                          <span className="text-xs sm:text-sm mt-0.5 leading-normal flex-1">
+                            {opt.text}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
 
               {/* Tampilan Opsi Jawaban: PGK Kategori (Benar / Salah) */}
               {currentQ.type === 'pgk_kategori' && (

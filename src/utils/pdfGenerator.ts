@@ -353,12 +353,12 @@ export function downloadExamQuestionsPDF(questions: Question[]): void {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10.5);
       doc.setTextColor(6, 95, 70);
-      doc.text('B. ROMAWI II — PILIHAN GANDA KOMPLEKS (Benar Semua = 2 Poin, Sebagian = 1 Poin, Salah = 0)', 15, y);
+      doc.text('B. ROMAWI II — PILIHAN GANDA KOMPLEKS (Benar 2 = 2 Poin, Benar 1 = 1 Poin, Benar 0 = 0)', 15, y);
       y += 4.5;
       doc.setFont('helvetica', 'italic');
       doc.setFontSize(8.5);
       doc.setTextColor(71, 85, 105);
-      doc.text('Pilih semua jawaban yang benar. Jawaban benar dapat lebih dari satu.', 15, y);
+      doc.text('Pilihlah 2 (dua) jawaban yang benar dari pilihan A, B, C, atau D pada setiap soal.', 15, y);
       doc.setTextColor(0, 0, 0);
       y += 6;
     }

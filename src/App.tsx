@@ -15,7 +15,7 @@ import { Stage3Result } from './components/Stage3Result';
 import { Stage4TeacherPanel } from './components/Stage4TeacherPanel';
 import { TeacherAuthModal } from './components/TeacherAuthModal';
 
-const STORAGE_QUESTIONS_KEY = 'sd3_pancasila_bab4_questions_v3';
+const STORAGE_QUESTIONS_KEY = 'sd3_pancasila_bab4_questions_v4';
 const STORAGE_ALLOW_REVIEW_KEY = 'sd3_loloan_timur_allow_review';
 const STORAGE_STRICT_SECURITY_KEY = 'sd3_strict_exam_mode';
 

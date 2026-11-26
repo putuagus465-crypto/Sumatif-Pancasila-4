@@ -295,7 +295,7 @@ export const Stage1Identity: React.FC<Stage1IdentityProps> = ({
                   <span className="font-bold text-emerald-300">{pgkCount} Butir</span>
                 </div>
                 <p className="text-[11px] text-slate-400">
-                  Benar semua = 2 poin • Benar sebagian = 1 poin • Salah = 0 poin
+                  Pilih 2 jawaban benar • Benar 2 = 2 poin • Benar 1 = 1 poin • Benar 0 = 0 poin
                 </p>
               </div>
               <div className="flex items-center justify-between pt-2 border-t border-slate-800 text-slate-300">

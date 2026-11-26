@@ -67,18 +67,14 @@ export function evaluateStudentItemResponses(
           .map((o) => o.text);
 
         const userSelected = Array.isArray(userAns) ? userAns : [];
+        const maxSelectable = correctKeys.length > 0 ? correctKeys.length : 2;
         const matchCount = userSelected.filter(
           (u) => correctKeys.includes(u) || correctTexts.includes(u)
         ).length;
-        const wrongSelected = userSelected.filter(
-          (u) => !correctKeys.includes(u) && !correctTexts.includes(u)
-        ).length;
-        const exactMatch =
-          wrongSelected === 0 &&
-          correctKeys.length > 0 &&
-          matchCount === correctKeys.length;
+        const excess = Math.max(0, userSelected.length - maxSelectable);
+        const earnedScore = Math.min(itemMax, Math.max(0, matchCount - excess));
 
-        if (exactMatch) {
+        if (earnedScore >= itemMax && correctKeys.length > 0) {
           map[q.id] = {
             questionId: q.id,
             isCorrect: true,
@@ -87,11 +83,11 @@ export function evaluateStudentItemResponses(
             status: 'benar',
             userAnswerText: userSelected.join(', '),
           };
-        } else if (wrongSelected === 0 && matchCount >= 1) {
+        } else if (earnedScore >= 1) {
           map[q.id] = {
             questionId: q.id,
             isCorrect: false,
-            score: 1,
+            score: earnedScore,
             maxScore: itemMax,
             status: 'sebagian',
             userAnswerText: userSelected.join(', '),

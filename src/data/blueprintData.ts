@@ -290,13 +290,13 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     levelKognitif: 'L3',
     bobotSkor: 1,
   },
-  // ROMAWI II: PILIHAN GANDA KOMPLEKS (No. 31 - 40, Bobot 2 Poin)
+  // ROMAWI II: PILIHAN GANDA KOMPLEKS (No. 31 - 40, Bobot 2 Poin: 2 Benar & 2 Salah)
   31: {
     elemen: 'Pancasila',
     tujuanPembelajaran:
       'Peserta didik mengidentifikasi berbagai sikap terpuji yang perlu ditunjukkan saat bermusyawarah.',
     indikatorSoal:
-      'Disajikan empat pilihan sikap, peserta didik dapat memilih seluruh sikap positif yang perlu ditunjukkan saat bermusyawarah.',
+      'Disajikan empat pilihan sikap, peserta didik dapat memilih dua sikap positif yang perlu ditunjukkan saat bermusyawarah.',
     levelKognitif: 'L1',
     bobotSkor: 2,
   },
@@ -305,7 +305,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik mengidentifikasi tahapan persiapan musyawarah yang tepat dan sistematis.',
     indikatorSoal:
-      'Disajikan empat pernyataan kegiatan, peserta didik dapat memilih semua langkah persiapan musyawarah yang tepat.',
+      'Disajikan empat pernyataan kegiatan, peserta didik dapat memilih dua langkah persiapan musyawarah yang tepat.',
     levelKognitif: 'L2',
     bobotSkor: 2,
   },
@@ -314,7 +314,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik menerapkan tata cara mengutarakan pendapat yang santun dan efektif.',
     indikatorSoal:
-      'Disajikan empat cara berbicara, peserta didik dapat memilih seluruh cara mengutarakan pendapat yang baik dalam musyawarah.',
+      'Disajikan empat cara berbicara, peserta didik dapat memilih dua cara mengutarakan pendapat yang baik dalam musyawarah.',
     levelKognitif: 'L2',
     bobotSkor: 2,
   },
@@ -323,7 +323,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik mengidentifikasi prinsip-prinsip musyawarah yang selaras dengan nilai Pancasila.',
     indikatorSoal:
-      'Disajikan empat pernyataan prinsip, peserta didik dapat memilih seluruh prinsip musyawarah yang sesuai dengan Pancasila.',
+      'Disajikan empat pernyataan prinsip, peserta didik dapat memilih dua prinsip musyawarah yang sesuai dengan Pancasila.',
     levelKognitif: 'L2',
     bobotSkor: 2,
   },
@@ -332,7 +332,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik menerapkan sikap bijaksana saat menghadapi perbedaan pendapat dalam musyawarah.',
     indikatorSoal:
-      'Disajikan empat pilihan respons, peserta didik dapat memilih semua tindakan positif yang dapat dilakukan saat pendapat berbeda.',
+      'Disajikan empat pilihan respons, peserta didik dapat memilih dua tindakan positif yang dapat dilakukan saat pendapat berbeda.',
     levelKognitif: 'L2',
     bobotSkor: 2,
   },
@@ -341,7 +341,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik menganalisis strategi dan langkah konstruktif agar mufakat dapat tercapai.',
     indikatorSoal:
-      'Disajikan empat pilihan tindakan, peserta didik dapat memilih seluruh upaya konstruktif yang dapat dilakukan agar mufakat tercapai.',
+      'Disajikan empat pilihan tindakan, peserta didik dapat memilih dua upaya konstruktif yang dapat dilakukan agar mufakat tercapai.',
     levelKognitif: 'L3',
     bobotSkor: 2,
   },
@@ -350,7 +350,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik melaksanakan komitmen dan tanggung jawab setelah keputusan bersama disepakati.',
     indikatorSoal:
-      'Disajikan empat pernyataan sikap, peserta didik dapat memilih seluruh tanggung jawab peserta setelah keputusan disepakati.',
+      'Disajikan empat pernyataan sikap, peserta didik dapat memilih dua tanggung jawab peserta setelah keputusan disepakati.',
     levelKognitif: 'L2',
     bobotSkor: 2,
   },
@@ -359,7 +359,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik mengidentifikasi contoh nyata etika dan tata tertib bermusyawarah.',
     indikatorSoal:
-      'Disajikan empat perilaku dalam forum diskusi, peserta didik dapat memilih seluruh contoh etika bermusyawarah yang benar.',
+      'Disajikan empat perilaku dalam forum diskusi, peserta didik dapat memilih dua contoh etika bermusyawarah yang benar.',
     levelKognitif: 'L1',
     bobotSkor: 2,
   },
@@ -368,7 +368,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik mengidentifikasi contoh keputusan bersama di lingkungan sekolah dan masyarakat.',
     indikatorSoal:
-      'Disajikan empat contoh kegiatan/aturan, peserta didik dapat memilih semua contoh keputusan bersama yang perlu dilaksanakan.',
+      'Disajikan empat contoh kegiatan/aturan, peserta didik dapat memilih dua contoh keputusan bersama yang perlu dilaksanakan.',
     levelKognitif: 'L2',
     bobotSkor: 2,
   },
@@ -377,7 +377,7 @@ export const DEFAULT_BLUEPRINT_MAP: Record<number, BlueprintDefinition> = {
     tujuanPembelajaran:
       'Peserta didik menganalisis sikap kritis dan bertanggung jawab sebelum menyetujui suatu usulan.',
     indikatorSoal:
-      'Disajikan empat tindakan peserta, peserta didik dapat memilih seluruh hal yang sebaiknya dilakukan sebelum menyetujui usulan.',
+      'Disajikan empat tindakan peserta, peserta didik dapat memilih dua hal yang sebaiknya dilakukan sebelum menyetujui usulan.',
     levelKognitif: 'L3',
     bobotSkor: 2,
   },
